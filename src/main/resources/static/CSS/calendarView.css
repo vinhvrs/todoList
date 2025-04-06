@@ -1,0 +1,174 @@
+/* Full-Screen Layout */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #f1f3f4;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+nav.navbar {
+    position: fixed; /* ✅ Fixes navbar to the top */
+    top: 0;
+    left: 0;
+    width: 100%; /* ✅ Ensures it spans across the page */
+    background-color: white; /* ✅ Ensures visibility */
+    z-index: 1000; /* ✅ Ensures navbar stays above content */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* ✅ Adds a subtle shadow */
+}
+
+.bg-success {
+    background-color: #28a745 !important; /* Green */
+    color: white;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important; /* Red */
+    color: white;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important; /* Gray */
+    color: white;
+}
+
+.container {
+    display: flex;
+    width: 95vw;
+    margin-top: 60px; /* ✅ Pushes calendar down so it doesn’t overlap with navbar */
+    /* Dynamically adjusts */
+    height: 90vh;
+    /* Ensures the calendar and detail panel are equal */
+    max-width: 1200px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Calendar Container */
+.calendar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5vh;
+    background: #4285f4;
+    color: white;
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2vw;
+    cursor: pointer;
+    padding: 1vw;
+}
+
+/* Calendar Table */
+.calendar-container table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    flex: 1;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 0.5vw;
+    border: 1px solid #ddd;
+    height: calc(100% / 7);
+    /* Ensures consistent height */
+    font-size: 1.2vw;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+td:hover {
+    background-color: #e8f0fe;
+}
+
+.today {
+    background-color: #c6dafc;
+    border: 2px solid #4285f4;
+}
+
+.selected {
+    background-color: #34a853 !important;
+    color: white;
+}
+
+/* Detail Panel - Matches Calendar Height */
+.detail-panel {
+    width: 0;
+    display: none;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: width 0.3s ease;
+    height: auto;
+    /* Matches calendar */
+    padding: 2vw;
+    overflow-y: auto;
+    /* Scroll if too many tasks */
+}
+
+.detail-panel.open {
+    display: block;
+    width: 30vw;
+    /* Adjusts with screen */
+}
+
+.detail-panel .close-btn {
+    display: block;
+    cursor: pointer;
+    text-align: right;
+    font-size: 1.5vw;
+    color: #4285f4;
+    border: none;
+    background: none;
+}
+
+.new-task-btn {
+    width: 100%;
+    padding: 1vw;
+    font-size: 1vw;
+    background: #34a853;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 1vw;
+    border-radius: 4px;
+}
+
+.new-task-btn:hover {
+    background: #2c8b43;
+}
+
+.task {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 1vw;
+    margin-top: 1vw;
+    border-radius: 4px;
+}

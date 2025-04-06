@@ -1,0 +1,92 @@
+body {
+  background-color: #f9f9f9;
+  font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar>.btn:hover{
+  background-color: 007bff !important;
+  color: white;
+}
+
+.navbar-brand{
+  color: black !important;
+}
+
+.alert-info {
+  background-color: #e7f3fe;
+  color: #3178c6;
+  border: 1px solid #bce8f1;
+}
+
+.list-group-item {
+  background-color: #fff;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+}
+
+.todo-items {
+  margin-left: 20px;
+  margin-top: 10px;
+  display: none;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  float: right;
+  cursor: pointer;
+}
+
+.menu-options {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.menu-options button {
+  display: block;
+  background: none;
+  border: none;
+  padding: 5px;
+  margin: 2px 0;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.menu-options button:hover {
+  background-color: #f0f0f0;
+}
+
+.toggle-icon {
+  font-size: 16px;
+  color: #007bff;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotate {
+  transform: rotate(180deg);
+}
