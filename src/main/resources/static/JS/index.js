@@ -269,10 +269,10 @@ function logoutUser() {
   catch(err){
     console.log(err);
   }
-  window.location.href = "login.html";
+  window.location.href = "/login";
 }
 
 function addNewList(){
-  window.location.href = "createList.html";
+  window.location.href = "/todo_list/create";
 }
 

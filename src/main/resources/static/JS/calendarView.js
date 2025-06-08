@@ -49,6 +49,37 @@ function renderCalendar(date) {
     updateCalendarColors();
 }
 
+function createNewListbyDate(date) {
+    const newList = {
+        title: date,
+        description: "This is a new list created on " + date,
+        userID: userID,
+        dueDate: date,
+        status: "Incomplete"
+    };
+
+    fetch(`http://127.0.0.1:1111/api/${userID}/addList`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newList)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Failed to create new list");
+        }
+    })
+    // .then(data => {
+    //     //console.log("New list created:", data);
+    // })
+    .catch(error => {
+        console.error("Error creating new list:", error);
+    });
+}
+
 async function updateCalendarColors() {
     const cells = document.querySelectorAll("#calendarBody td");
 
@@ -61,10 +92,25 @@ async function updateCalendarColors() {
         let hasOverdue = false;
 
         try {
-            const response = await fetch(`http://127.0.0.1:1111/api/${userID}/getCalendarItems/${date}`);
-            const data = await response.json();
-
-            if (data.length === 1 && data[0].title === 'No tasks found.') continue;
+            let response = await fetch(`http://127.0.0.1:1111/api/${userID}/getCalendarItems/${date}`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            let data = json = [];
+            if (response.ok){
+                data = await response.json();
+            } else {
+                console.error(`Failed to fetch tasks for ${date}:`, response.statusText);
+                continue;
+            }
+            
+            //if (data.length === 1 && data[0].title === 'No tasks found.') continue;
+            if (data.length === 0) {
+                cell.classList.remove("bg-success", "bg-danger", "bg-secondary");
+                continue; // No tasks for this date, skip color update
+            }
 
             data.forEach(task => {
                 if (task.status !== "Completed") {
@@ -106,7 +152,14 @@ function closeDetailPanel() {
 async function fetchTasks(date) {
     taskList.innerHTML = '';
     try {
-        const response = await fetch(`http://127.0.0.1:1111/api/${userID}/getCalendarItems/${date}`);
+        const response = await fetch(`http://127.0.0.1:1111/api/${userID}/getCalendarItems/${date}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }
+        );
         const data = await response.json();
 
         if (data.length === 1 && data[0].title === 'No tasks found.') {
@@ -179,103 +232,7 @@ closePanel.addEventListener('click', closeDetailPanel);
 
 renderCalendar(currentDate);
 
-// function renderCalendar(date) {
-//     calendarBody.innerHTML = '';
-//     const year = date.getFullYear();
-//     const month = date.getMonth();
-//     monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
-
-//     const firstDayIndex = new Date(year, month, 1).getDay();
-//     const daysInMonth = new Date(year, month + 1, 0).getDate();
-//     let dateCount = 1;
-
-//     for (let i = 0; i < 6; i++) {
-//         const row = document.createElement('tr');
-//         for (let j = 0; j < 7; j++) {
-//             const cell = document.createElement('td');
-//             if ((i === 0 && j < firstDayIndex) || dateCount > daysInMonth) {
-//                 cell.textContent = '';
-//             } else {
-//                 const day = dateCount;
-//                 cell.textContent = day;
-//                 cell.addEventListener('click', function () {
-//                     if (selectedCell) selectedCell.classList.remove('selected');
-//                     cell.classList.add('selected');
-//                     selectedCell = cell;
-//                     const formattedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-//                     selectedDateText.textContent = formattedDate;
-//                     openDetailPanel(formattedDate);
-//                 });
-//                 dateCount++;
-//             }
-//             row.appendChild(cell);
-//         }
-//         calendarBody.appendChild(row);
-//     }
-// }
-
-// function openDetailPanel(date) {
-//     closeDetailPanel();
-//     detailPanel.classList.add('open');
-//     fetchTasks(date);
-// }
-
-// function closeDetailPanel() {
-//     detailPanel.classList.remove('open');
-// }
-
-// async function fetchTasks(date) {
-//     taskList.innerHTML = ''; // Clear previous tasks
-//     const userID = localStorage.getItem('userID');
-
-//     try {
-//         const response = await fetch(`http://127.0.0.1:1111/api/${userID}/getCalendarItems/${date}`);
-//         const data = await response.json();
-
-//         if (data.length === 1 && data[0].title === 'No tasks found.') {
-//             taskList.innerHTML = '<p class="text-muted">No tasks found.</p>';
-//             return;
-//         }
-
-//         data.forEach(task => {
-//             // Create Bootstrap card container
-//             const taskElement = document.createElement('div');
-//             taskElement.classList.add('card', 'mb-2', 'shadow-sm', 'border'); // Bootstrap classes
-
-//             // Insert task content into the card
-//             taskElement.innerHTML = `
-//                 <div class="card-body">
-//                     <h5 class="card-title">${task.title}</h5>
-//                     <p class="card-text">${task.description || "No description available"}</p>
-//                     <div class="d-flex justify-content-end">
-//                         <button class="btn btn-success btn-sm me-2" onclick="markDone('${task.id}', '${task.listID}')">✔ Done</button>
-//                         <button class="btn btn-danger btn-sm" onclick="removeTask('${task.id}', '${task.listID}')">🗑 Remove</button>
-//                     </div>
-//                 </div>
-//             `;
-
-//             taskList.appendChild(taskElement);
-//         });
-
-//     } catch (error) {
-//         console.error('Error fetching tasks:', error);
-//         taskList.innerHTML = '<p class="text-danger">Error fetching tasks.</p>';
-//     }
-// }
-
-
-
-// function newTask() {
-//     window.location.href = 'createList.html';
-// }
-
-// prev.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(currentDate); });
-// next.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(currentDate); });
-// closePanel.addEventListener('click', closeDetailPanel);
-
-// renderCalendar(currentDate);
-
-async function findUnlist() {
+async function findUnlist(date) {
     try {
         const response = await fetch(`http://127.0.0.1:1111/api/${userID}/getList`, {
             method: "GET",
@@ -286,7 +243,7 @@ async function findUnlist() {
         const data = await response.json();
 
         for (const list of data) {
-            if (list.title === "Unlisted") {
+            if (list.title === date) {
                 return list.listID; // Correctly return the listID
             }
         }
@@ -299,8 +256,12 @@ async function findUnlist() {
 }
 
 async function addInstanly() {
-    listID = await findUnlist();
-    console.log(listID);
+    listID = await findUnlist(selectedDateText.textContent);
+    if (!listID) {
+        const today = new Date().toISOString().split('T')[0];
+        createNewListbyDate(today);
+        listID = await findUnlist(today); // Retry to get the newly created listID
+    }
     const detailPanel = document.getElementById("detailPanel");
     const selectedDate = document.getElementById("selectedDate");
     if ($(".todo-add-form").length > 0) return;

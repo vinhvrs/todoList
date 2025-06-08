@@ -52,5 +52,5 @@ async function addList(){
 
 function saveList(){
     addList();
-    window.location.href = "index.html";
+    window.location.href = "/index";
 }

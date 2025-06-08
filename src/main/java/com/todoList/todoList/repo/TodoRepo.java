@@ -1,10 +1,12 @@
-package com.todoList.todoList.Model;
+package com.todoList.todoList.repo;
 
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.todoList.todoList.Model.TodoList;
 
 public interface TodoRepo extends JpaRepository<TodoList, UUID>{
     

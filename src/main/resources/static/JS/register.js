@@ -39,7 +39,7 @@ async function registerUser(){
     .then(response => {
         if (response.ok) {
             alert("Registration successful! Please login to continue.");
-            window.location.href = "login.html";
+            window.location.href = "/login";
         }
         else {
             alert("Registration failed. Please try again.");
