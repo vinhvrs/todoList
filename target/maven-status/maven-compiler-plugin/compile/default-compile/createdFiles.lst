@@ -1,0 +1,14 @@
+com\todoList\todoList\API\APIController.class
+com\todoList\todoList\Model\TodoList.class
+com\todoList\todoList\Model\TodoItems.class
+com\todoList\todoList\API\PageController.class
+com\todoList\todoList\config\SecurityConfig.class
+com\todoList\todoList\Model\ItemsRepo.class
+com\todoList\todoList\Model\User.class
+com\todoList\todoList\API\APIController$WebConfig.class
+com\todoList\todoList\API\AuthController.class
+com\todoList\todoList\Model\TodoRepo.class
+com\todoList\todoList\UUIDConvert.class
+com\todoList\todoList\TodoListApplication.class
+com\todoList\todoList\Model\UserRepo.class
+com\todoList\todoList\ServletInitializer.class

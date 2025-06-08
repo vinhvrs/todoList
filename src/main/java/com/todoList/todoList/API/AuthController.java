@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "http://127.0.0.1:5500/", allowCredentials = "true")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 public class AuthController {
 
     // ✅ Create a New Session
@@ -64,7 +64,7 @@ public class AuthController {
         HttpSession session = request.getSession(false); // false: do not create new session if none exists
 
         if (session == null || session.getAttribute("username") == null) {
-            return ResponseEntity.status(201).body(Map.of("error", "No active session"));
+            return ResponseEntity.status(401).body(Map.of("error", "No active session"));
         }
 
         // ✅ Convert session data into JSON response
